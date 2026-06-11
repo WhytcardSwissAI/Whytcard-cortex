@@ -2,6 +2,15 @@
 
 All notable changes to WhytCard-Cortex. The format follows Keep a Changelog, the versioning follows SemVer.
 
+## [0.5.1] - 2026-06-11
+
+### Added
+- **New skill `cortex-factory`** (`/cortex-factory`): build anything structural as a reusable mould -- separate engine from data, prove the structure on one real end-to-end case, duplicate by a parameterized tool (never by hand), and flow every lesson back into the mould. Pure reasoning skill in the doctrine (questions, not orders), no CLI subcommand, no hook change.
+
+### Changed
+- **Frame demands a comprehension contract**: the first framing question now asks the agent to state the real ask and its success criterion in one line before acting, and the KNOW/ASSUME question asks it to name the unknowns and verify each checkable one BEFORE proposing anything. Born from a real failure: the agent answered a conveniently narrowed version of "analyse why it feels less effective" instead of the demand as posed.
+- **The Stop self-critique now judges fidelity to the demand**: a new `ok: false` criterion catches replies that answer a conveniently narrowed version of the demand instead of the demand as actually posed.
+
 ## [0.5.0] - 2026-06-09
 
 The polish-and-name pass: every command now carries a `cortex-` prefix so it is instantly recognisable and never collides with Claude Code built-ins, plus a round of repo hardening so Cortex is clean to install from GitHub for anyone, anywhere.

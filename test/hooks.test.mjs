@@ -68,6 +68,12 @@ test("frame: emits on a substantive prompt", () => {
   assert.match(r.context, /Frame before acting/);
   assert.equal(JSON.parse(r.stdout).hookSpecificOutput.hookEventName, "UserPromptSubmit");
 });
+test("frame: demands the real ask restated and unknowns verified before proposing", () => {
+  const r = emits("frame.mjs", { prompt: "refactor the auth module" });
+  assert.match(r.context, /success criterion in one line before acting/);
+  assert.match(r.context, /Name the unknowns/);
+  assert.match(r.context, /BEFORE proposing anything/);
+});
 test("frame: emits even on empty stdin", () => emits("frame.mjs", ""));
 test("frame: emits on a short real request", () => emits("frame.mjs", { prompt: "deploy" }));
 test("frame: silent on a bare pleasantry", () => {
@@ -177,6 +183,12 @@ test("all JSON manifests parse", () => {
   ]) {
     JSON.parse(readFileSync(join(root, f), "utf8"));
   }
+});
+test("hooks.json: the Stop self-critique judges the demand as actually posed", () => {
+  const cfg = JSON.parse(readFileSync(join(root, "hooks/hooks.json"), "utf8"));
+  const stop = cfg.hooks.Stop[0].hooks[0];
+  assert.equal(stop.type, "prompt");
+  assert.match(stop.prompt, /demand as actually posed/);
 });
 test("hooks.json wires every referenced hook file and only those", () => {
   const cfg = JSON.parse(readFileSync(join(root, "hooks/hooks.json"), "utf8"));

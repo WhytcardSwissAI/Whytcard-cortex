@@ -38,8 +38,8 @@ if (prompt && trivial.test(prompt)) process.exit(0);
 const CONTEXT = [
   "[Cortex - Frame before acting]",
   "Before answering or acting, frame the turn (scaled to the stakes):",
-  "  - Beneath the wording, what is actually being asked, and what is the real stake behind it?",
-  "  - What do you KNOW (verified this turn) versus what do you ASSUME? For anything unproven, go to the ground truth - official docs, the actual code, a quick test - instead of trusting memory.",
+  "  - Beneath the wording, what is actually being asked, and what is the real stake behind it? State the real ask and its success criterion in one line before acting - if you cannot, you have not understood it yet.",
+  "  - What do you KNOW (verified this turn) versus what do you ASSUME? Name the unknowns, then go to the ground truth for each checkable one - official docs, the actual code, a quick test - BEFORE proposing anything, instead of trusting memory.",
   "  - What tools, MCP servers and resources are available to you right now? Reach for the right existing one rather than improvising by hand.",
   "  - Look one step ahead: what will this require next, what could go wrong, what are you not seeing yet?",
   "  - What level are you aiming for: the minimum that works, or the remarkable? The safe minimum is the floor, never the ceiling.",
