@@ -8,11 +8,11 @@ argument-hint: <the goal / stage to reach>
 
 The user wants to reach this goal: **$ARGUMENTS**
 
-Before doing the work, reason it through out loud, in their working language:
+Before doing the work, reason it through out loud, in their working language -- and VERIFY as you go, this is not a questionnaire:
 
-1. **The target, precisely.** What does "done" actually look like -- what observable state proves the goal is reached? If it is fuzzy, sharpen it first.
+1. **The target, precisely.** State in ONE line the observable end state that proves the goal is reached. If it is fuzzy, sharpen it with the user before anything else.
 2. **Work backward.** From that end state, what must be true just before it? And before that? Trace the chain back to where you stand now, so the path is *derived*, not guessed.
-3. **Pressure-test the plan.** Is this the right path, or the first that came to mind? What does it assume that you have not verified -- go to the docs, the real code, a quick test? What could go wrong, and where would it break first?
-4. **The next concrete step**, and how you will know it worked.
+3. **Verify the load-bearing assumptions NOW.** List what the path assumes, then actually check each checkable one this turn -- open the real code, run the quick test, read the official docs, inspect the environment. An assumption you could have verified and did not is a defect of the plan, not a footnote. If a structured pass helps, use the reasoning tools at hand (sequential-thinking, clear-thought) out loud.
+4. **Pressure-test what survives.** Where would this path break first? Name at least one credible alternative path and say why the chosen one wins -- never the first idea by default.
 
-Then proceed -- but only once the path holds up. The safe minimum is the floor, never the ceiling.
+**Deliverable before executing:** the goal contract (the one-liner), the derived path with each step carrying its proof-of-done, the assumptions with their verification status (checked / unverifiable / to-watch), and the discarded alternative with the reason. Then proceed. The safe minimum is the floor, never the ceiling.

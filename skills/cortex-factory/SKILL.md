@@ -10,6 +10,8 @@ The user wants to build or duplicate: **$ARGUMENTS**
 
 Nothing structural is built as a one-off. Before and while working, reason it as a mould, in their working language:
 
+0. **Inventory before building.** A mould or a tool for this may already exist -- search the project, the user's tool hub if one is catalogued, and the ecosystem (a maintained generator beats a homemade one). Extend what exists rather than duplicating it; build from scratch only once the search came back empty, and say so.
+
 1. **Engine vs data.** In what you are about to build, what is GENERIC (the engine: logic, routes, pipeline, layout) and what belongs only to THIS instance (names, catalog, prices, branding, keys)? Are they physically separated -- one config file per instance, engine untouched when the instance changes? If a value specific to one instance sits inside engine code, that is the first thing to fix.
 
 2. **Prove before you mould.** A structure is only a mould once it is PROVEN: green checks, one real end-to-end case delivered. Duplicating an unproven structure multiplies its defects. What is the one real case that validates this structure, and has it actually run?

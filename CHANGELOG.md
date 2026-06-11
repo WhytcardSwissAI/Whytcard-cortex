@@ -2,6 +2,11 @@
 
 All notable changes to WhytCard-Cortex. The format follows Keep a Changelog, the versioning follows SemVer.
 
+## [0.5.2] - 2026-06-11
+
+### Changed
+- **The reasoning skills now execute, not just question.** `cortex-goal` demands a one-line goal contract, verification of every checkable assumption THIS turn, one credible alternative path, and a deliverable (path + proofs + assumption status) before executing. `cortex-review` audits against evidence first (`.cortex/log.jsonl` reflex activity, `memory.md` growth, frictions voiced in conversation), not just the rule list. `cortex-factory` gains step 0: inventory existing moulds and tools before building anything.
+
 ## [0.5.1] - 2026-06-11
 
 ### Added
