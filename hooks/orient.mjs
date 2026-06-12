@@ -16,7 +16,7 @@
 // understanding is not relearned each session, and logs the activation. All of it is
 // best-effort via cortex-store and silenced by CORTEX_LOG=0 -- the question always fires.
 
-import { projectRoot, ensureDir, readMemory, guideContext, log } from "./cortex-store.mjs";
+import { projectRoot, ensureDir, readMemory, guideContext, readCapabilities, log } from "./cortex-store.mjs";
 
 let raw = "";
 try {
@@ -80,6 +80,22 @@ if (mem && noteCount > 0 && mem.text) {
 // language and following their preferences. Best-effort, empty when nothing is set.
 const gctx = guideContext(root);
 if (gctx) parts.push("", gctx);
+
+// Inject the procedural memory: the plugin's capability catalogue (what the agent can DO).
+// Declarative memory answers "what do I know?"; this answers "what can I already do without
+// improvising?" -- plus the forge reflex: a heavy gesture repeated twice deserves a tool.
+const caps = readCapabilities(root);
+if (caps) {
+  const capLines = caps.entries.map(
+    (c) => `  - ${c.name}: ${c.description}${c.when ? ` When: ${c.when}` : ""}\n      run: ${c.run}`
+  );
+  parts.push(
+    "",
+    `[Cortex - Your capabilities (${caps.count} proven tool(s), what you can DO)]`,
+    "Before doing heavy work by hand, check this catalogue: if a capability already does the job, run it as-is instead of improvising. And when you catch yourself repeating a heavy gesture, forge it into a new capability (a generic script + README + green test, catalogued in capabilities/index.json) -- the hand-typed command is a draft; the tested tool is the final write.",
+    ...capLines
+  );
+}
 
 const context = parts.filter((p) => p !== null).join("\n").trimEnd();
 

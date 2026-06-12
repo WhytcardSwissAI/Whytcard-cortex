@@ -77,6 +77,7 @@ const msg = [
   "  - Does your plan still hold, or does this result change it? If it contradicts an assumption, which one, and what do you fix now?",
   "  - Is there a reusable understanding here - a method worth carrying forward - or is it a one-off?",
   "  - If it is reusable, write it as one short, true line in .cortex/memory.md so the next session starts from it instead of relearning it; if it is a one-off, let it go.",
+  "  - And the gesture itself: if it was heavy and likely to recur, forge it into a capability (a generic script + README + green test in the plugin's capabilities/ catalogue) instead of retyping it next time -- the hand-typed command is a draft; the tested tool is the final write.",
 ].join("\n");
 
 log(input, { event: "PostToolUse", hook: "learn", action: "emit", note: "What does this teach you?", detail: cmd });

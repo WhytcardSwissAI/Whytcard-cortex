@@ -67,6 +67,22 @@ The state commands (`cortex-init`, `cortex-show`, `cortex-add`, `cortex-forget`,
 
 > **Status: Phase 1 (the spine).** The guide is real, visible, steerable and lockable, and the capture nudge rides on Frame. Phase 2 sharpens the *automatic* "I noticed a preference -- save it?" detection and the positive/negative read of each exchange; Phase 3 treats the guide as full inherited reasoning (conflict resolution, per-context scope, a cross-project user-level guide). Designing is not migrating: the foundation ships and is tested before the smarter layers are added.
 
+## Capabilities -- the procedural memory (v0.6)
+
+Beside what the agent *knows* (`memory.md`, the guide), Cortex carries what it can *do*: a catalogue of proven, executable tools in `capabilities/`, injected by Orient at session start with resolved, runnable command lines. The loop that grows the declarative memory grows this one too: Learn now also asks whether a heavy, recurring gesture should be **forged** into a capability instead of retyped -- the hand-typed command is a draft; the tested tool is the final write.
+
+**Rule of entry, no exceptions:** generic (zero hardcoded values, everything parameterized), documented (a README), proven (its test is green). Capabilities are read-only or reversible by default: autonomy never includes the irreversible.
+
+| Capability | What it does |
+|---|---|
+| `consolidate` | Read-only audit of a project's Cortex memory (`.cortex/memory.md` + `guide.md`): future dates, invalidation markers whose dead layer may remain, near-duplicate notes. JSON report with line numbers and hints; `--today YYYY-MM-DD` for deterministic replays; `--pretty` for humans. |
+
+```bash
+node capabilities/consolidate/capability.mjs --dir <projectRoot> --pretty
+```
+
+The journey all of this serves -- from a guided agent to an agent that guides -- is written down in `docs/CHEMIN.md`: the working cycle (discover what is possible before deciding the path), the three memories + guide as organs, the four engines, and six provable stages. The plugin ends where the agent continues.
+
 ## Requirements
 
 - **Node.js >= 18** on the PATH (tested on Node 18, 20, 22 and 24). On Windows, make sure `node` is on the system PATH and not only available through a version manager that does not export to the system PATH -- the hooks are invoked as `node "..."`.

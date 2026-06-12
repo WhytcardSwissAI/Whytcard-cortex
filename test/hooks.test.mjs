@@ -158,6 +158,22 @@ test("orient: emits the recovery question after a compaction", () => {
   assert.match(r.context, /Re-orient after compaction/);
 });
 
+test("orient: injects the capability catalogue with resolved run lines", () => {
+  const r = emits("orient.mjs", { source: "startup", cwd: "C:\\some\\proj" });
+  assert.match(r.context, /Your capabilities/);
+  assert.match(r.context, /consolidate:/);
+  assert.match(r.context, /forge it into a new capability/);
+  // placeholders are resolved: the run line points at real paths, not <plugin>/<projectRoot>
+  assert.doesNotMatch(r.context, /<plugin>/);
+  assert.doesNotMatch(r.context, /<projectRoot>/);
+  assert.match(r.context, /capability\.mjs/);
+});
+
+test("learn: nudges to forge a heavy repeated gesture into a capability", () => {
+  const r = emits("learn.mjs", { session_id: newSession(), tool_input: { command: "npm test" } });
+  assert.match(r.context, /forge it into a capability/);
+});
+
 // ---------------------------------------------------------------- delegate (SubagentStop)
 test("delegate: emits the cross-check question", () => {
   const r = emits("delegate.mjs", {});
@@ -180,8 +196,25 @@ test("all JSON manifests parse", () => {
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
     "package.json",
+    "capabilities/index.json",
   ]) {
     JSON.parse(readFileSync(join(root, f), "utf8"));
+  }
+});
+
+test("capabilities: every catalogued entry is generic, documented and tested", () => {
+  const index = JSON.parse(readFileSync(join(root, "capabilities", "index.json"), "utf8"));
+  assert.ok(Array.isArray(index.capabilities) && index.capabilities.length >= 1);
+  for (const cap of index.capabilities) {
+    assert.ok(cap.name && cap.description && cap.when && cap.run, `${cap.name}: complete entry`);
+    // generic: the run line is parameterized, never a hardcoded machine path
+    assert.match(cap.run, /<plugin>/, `${cap.name}: run resolves via <plugin>`);
+    assert.doesNotMatch(cap.run, /[A-Z]:\\|\/Users\/|\/home\//, `${cap.name}: no hardcoded path`);
+    // documented + proven: script, README and test all ship beside the entry
+    const dir = join(root, "capabilities", cap.name);
+    for (const f of ["capability.mjs", "README.md", "capability.test.mjs"]) {
+      assert.doesNotThrow(() => readFileSync(join(dir, f), "utf8"), `${cap.name}/${f} missing`);
+    }
   }
 });
 test("hooks.json: the Stop self-critique judges the demand as actually posed", () => {

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "note": "The procedural memory of Cortex: what the agent can DO, not just know. Orient injects this catalogue at session start with <plugin> and <projectRoot> resolved to real paths. Rule of entry, no exceptions: generic (zero hardcoded values, parameterized), documented (README), proven (its test is green). A capability is read-only or reversible by default; autonomy never includes the irreversible (docs/CHEMIN.md).",
+  "capabilities": [
+    {
+      "name": "consolidate",
+      "description": "Read-only audit of a project's Cortex memory (.cortex/memory.md + guide.md): future dates, invalidation markers whose dead layer may remain, near-duplicate notes. JSON report with line numbers and hints.",
+      "when": "The memory feels contradictory or stale; before trusting old notes; as periodic hygiene after heavy memory growth.",
+      "run": "node \"<plugin>/consolidate/capability.mjs\" --dir \"<projectRoot>\"",
+      "output": "JSON report on stdout ({ findings[], counts, clean }); add --pretty for a human summary. Never modifies files."
+    }
+  ]
+}

@@ -2,6 +2,22 @@
 
 All notable changes to WhytCard-Cortex. The format follows Keep a Changelog, the versioning follows SemVer.
 
+## [0.6.0] - 2026-06-12
+
+The procedural pass: Cortex gains a second memory. Beside the declarative plane (what the agent KNOWS: `memory.md`, the guide), it now carries a **procedural plane** -- a catalogue of proven, executable capabilities (what the agent can DO), injected at session start and grown by the same learning loop. A brain that knows, plus hands that do. The journey this serves is written down in `docs/CHEMIN.md`.
+
+### Added
+- **`capabilities/`** -- the procedural memory. `index.json` is the catalogue (one compact entry per capability: name, what it does, when to use it, how to run it); each capability ships as `<name>/capability.mjs` + `README.md` + `capability.test.mjs`. **Rule of entry, no exceptions: generic (zero hardcoded values, parameterized), documented, test-green.** Capabilities are read-only or reversible by default -- autonomy never includes the irreversible.
+- **First capability: `consolidate`** -- read-only audit of a project's Cortex memory (`.cortex/memory.md` + `guide.md`): future dates (clock drift makes recency unjudgeable), invalidation markers whose dead layer may still stand as a second truth, near-duplicate notes. JSON report with line numbers and hints; `--today` for deterministic replays; `--pretty` for humans. Born from a real failure: a project memory carrying tomorrow's dates and two truths on one subject, found by hand at great cost -- now found by one command.
+- **Orient injects the catalogue**: at session start the agent sees what it can DO (not just what it knows), with `<plugin>`/`<projectRoot>` placeholders resolved to runnable commands, plus the forge reflex -- a heavy gesture repeated twice deserves a tool.
+- **Learn nudges the forge**: after a carrier command, the question now also asks whether the gesture itself should be forged into a capability instead of retyped next time. The hand-typed command is a draft; the tested tool is the final write.
+- **`docs/CHEMIN.md`** -- the journey doctrine, addressed to the agent that reads it: the working cycle (orient, discover, decide, do, prove, learn, pass on -- discover what is possible BEFORE deciding the path), the three memories + guide as organs, the four engines (critical mind, awareness of the irreversible, hunger to learn, "we do not know everything -- the world evolves"), and six provable stages from "generic" to "you guide". The plugin ends where the agent continues: a cage succeeds when you stay in; a school succeeds when you leave.
+- Tests: 10 for the consolidate capability (deterministic via `--today`, read-only proof, false-positive guards on versions and year-less dates), 2 for the new hook behaviours, 1 catalogue-integrity test (every entry generic + documented + tested), `capabilities/index.json` added to the manifest checks. 48 total, green on `npm test`.
+
+### Notes
+- The catalogue is **plugin data, not project state**: like the question texts, it ignores `CORTEX_LOG=0` (which silences only the project's `.cortex/` file I/O). Best-effort like everything else -- if the catalogue is missing or unreadable, Orient simply says nothing about it.
+- A real-world lesson uncovered while proving consolidate on live data: the date announced in an agent's harness context can run a day AHEAD of the local clock (timezone). Date your notes from the system clock, never from the context date -- that is exactly the rot the future-date check catches.
+
 ## [0.5.2] - 2026-06-11
 
 ### Changed

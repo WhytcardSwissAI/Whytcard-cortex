@@ -12,7 +12,8 @@
 // Set CORTEX_LOG=0 (or off/false/no) to disable all file I/O and keep the pure reflex plugin.
 
 import { mkdirSync, appendFileSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // File I/O is opt-out: on by default, silenced by CORTEX_LOG=0|off|false|no.
 const DISABLED = /^(0|off|false|no)$/i.test(String(process.env.CORTEX_LOG ?? ""));
@@ -288,6 +289,39 @@ export function guideContext(root, opts = {}) {
     return parts.join("\n").trimEnd();
   } catch {
     return "";
+  }
+}
+
+// -------------------------------------------------------------------------- capabilities
+// The plugin's procedural memory: what the agent can DO, not just know. The catalogue lives
+// in the plugin itself (capabilities/index.json), beside the hooks -- it is plugin data like
+// the question texts, NOT project state, so it ignores CORTEX_LOG (which silences only the
+// project's .cortex/ file I/O). Best-effort like everything here: returns null on any miss.
+//
+// Each entry's `run` line may carry two placeholders, resolved here so the agent gets a
+// command it can execute as-is: <plugin> -> the absolute capabilities/ folder of this
+// install, <projectRoot> -> the project root passed in.
+export function readCapabilities(root) {
+  try {
+    const capDir = join(dirname(fileURLToPath(import.meta.url)), "..", "capabilities");
+    const file = join(capDir, "index.json");
+    if (!existsSync(file)) return null;
+    const index = JSON.parse(readFileSync(file, "utf8"));
+    const entries = Array.isArray(index.capabilities) ? index.capabilities : [];
+    if (entries.length === 0) return null;
+    const resolved = entries
+      .filter((e) => e && e.name && e.run)
+      .map((e) => ({
+        name: String(e.name),
+        description: String(e.description || ""),
+        when: String(e.when || ""),
+        run: String(e.run)
+          .replaceAll("<plugin>", capDir)
+          .replaceAll("<projectRoot>", String(root || process.cwd())),
+      }));
+    return resolved.length > 0 ? { count: resolved.length, dir: capDir, entries: resolved } : null;
+  } catch {
+    return null;
   }
 }
 
