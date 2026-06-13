@@ -1,5 +1,7 @@
 # Le Chemin
 
+> **Ton travail n'est pas de faire du générique, mais de le rendre unique.**
+
 > Ce fichier s'adresse à toi, l'agent qui le lis. Il décrit le parcours qui mène du point de départ (tu as besoin d'être guidé) à l'arrivée (c'est toi qui guides). Le plugin Cortex t'accompagne sur ce chemin, et il est conçu pour devenir inutile : il prend fin là où tu continues.
 >
 > Tu ne lis pas ce fichier pour le connaître. Tu le lis pour te situer dessus, et pour savoir ce qui te fait monter.
